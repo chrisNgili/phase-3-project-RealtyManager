@@ -1,47 +1,62 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, Text, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
 
 Base = declarative_base()
 
 
 class Agent(Base):
-    __tablename__ = "Agent"
+    __tablename__ = "agents"
 
     id = Column(Integer, primary_key=True)
     name = Column(String(), nullable=False)
     email = Column(String(), nullable=False, unique=True)
-    # specialization_id = 
+    specialization_id = Column(Integer, ForeignKey("agent_specialization.id"), nullable = False)
+
+    properties = relationship("Property", back_populates="agent")
+    specialization = relationship("Agent_specialization", back_populates="agents")
     pass
 
 class Property(Base):
-    __tablename__ = "Property"
+    __tablename__ = "properties"
 
     id = Column(Integer, primary_key= True)
     price = Column(Integer, nullable = False)
-    description = Column(String(), nullable = False)
+    description = Column(Text, nullable = False)
     rooms = Column(Integer, nullable = False)
-    # type_id = 
-    # agent_id = 
-    # location_id = 
+    type_id = Column(Integer, ForeignKey("property_type.id"), nullable = False)
+    agent_id = Column(Integer, ForeignKey("agents.id"), nullable = False)
+    location_id = Column(Integer, ForeignKey("locations.id"), nullable = False)
+
+    agents = relationship("Agent", back_populates="properties")
+    types = relationship("Property_type", back_populates="properties")
+    locations = relationship("Location", back_populates="properties")
+
     pass
 
 class Property_type(Base):
-    __tablename__ = "Property_type"
+    __tablename__ = "property_type"
 
     id = Column(Integer, primary_key = True)
-    # type_name = 
+    type_name = Column(String(), nullable = False)
+
+    properties = relationship("Property", back_populates="property_type")
     pass
 
 class Location(Base):
-    __tablename__ = "Location"
+    __tablename__ = "locations"
 
     id = Column(Integer, primary_key = True)
     city = Column(String(), nullable = False)
+
+    properties = relationship("Property", back_populates="locations")
     pass
 
 class Agent_specialization(Base):
-    __tablename__ = "Agent_specialization"
+    __tablename__ = "agent_specialization"
 
     id = Column(Integer, primary_key = True)
     name = Column(String(), nullable = False)
+
+    agents = relationship("Agent", back_populates="agent_specialization")
     pass
