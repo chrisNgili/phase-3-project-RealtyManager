@@ -9,18 +9,39 @@ class Agent(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(), nullable=False)
-    email = Column(String(), nullalbe=False, unique=True)
-    specialization_id = 
+    email = Column(String(), nullable=False, unique=True)
+    # specialization_id = 
     pass
 
 class Property(Base):
+    __tablename__ = "Property"
+
+    id = Column(Integer, primary_key= True)
+    price = Column(Integer, nullable = False)
+    description = Column(String(), nullable = False)
+    rooms = Column(Integer, nullable = False)
+    # type_id = 
+    # agent_id = 
+    # location_id = 
     pass
 
 class Property_type(Base):
+    __tablename__ = "Property_type"
+
+    id = Column(Integer, primary_key = True)
+    # type_name = 
     pass
 
 class Location(Base):
+    __tablename__ = "Location"
+
+    id = Column(Integer, primary_key = True)
+    city = Column(String(), nullable = False)
     pass
 
 class Agent_specialization(Base):
+    __tablename__ = "Agent_specialization"
+
+    id = Column(Integer, primary_key = True)
+    name = Column(String(), nullable = False)
     pass
