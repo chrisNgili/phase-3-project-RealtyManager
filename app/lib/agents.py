@@ -6,7 +6,7 @@ def create_agent(session):
     agent_email = input("Enter your email : ")
 
     specializations = session.query(AgentSpecialization).all()
-    print("Available specialization : ")
+    print("Available specializations : ")
     for specialization in specializations:
         print(f"{specialization.id}. {specialization.name}")
 
@@ -34,3 +34,29 @@ def list_agents(session):
         print("List of Agents: ")
         for agent in agents:
             print(f"ID: {agent.id}, Name: {agent.name}, Email: {agent.email}, Specialization ID :{agent.specialization_id}")
+
+def update_agent(session):
+    agent_id = int(input("Enter agent ID to update : "))
+    agent = session.query(Agent).filter_by(id=agent_id).first()
+
+    if agent:
+        name = input("Enter new name: ")
+        email = input("Enter new email : ")
+        specialization_id = input("Enter new Specialization ID : ")
+        if name: agent.name = name
+        if email: agent.email = email
+        if specialization_id: agent.specialization_id = specialization_id
+
+        session.commit()
+        print("Agent Update successfully 🎊🎊 !!")
+    else: print("Agent not found!")
+
+def delete_agent(session):
+    agent_id = int(input("Enter agent ID to delete : "))
+    agent = session.query(Agent).filter_by(id=agent_id).first()
+
+    if agent:
+        session.delete(agent)
+        session.commit()
+        print("Agent deleted successfully ! ")
+    else: print("Agent not found")

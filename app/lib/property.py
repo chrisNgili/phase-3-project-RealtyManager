@@ -7,55 +7,35 @@ def create_property(session):
     description = input("Enter property description: ")
     rooms = int(input("Enter number of rooms: "))
 
-    property_types = session.query(PropertyType).all()
-    print("Available property types:")
-    for property_type in property_types:
-        print(f"{property_type.id}. {property_type.type_name}")
-
-    while True:
-        try:
-            type_id = int(input("Enter property type ID: "))
-            if any(pt.id == type_id for pt in property_types):
-                break
-            else:
-                print("Invalid property type ID. Please try again.")
-        except ValueError:
-            print("Please enter a valid number.")
-
     agents = session.query(Agent).all()
-    print("Available agents:")
+    print("Which agent are you :")
     for agent in agents:
         print(f"{agent.id}. {agent.name}")
+    agent_id = int(input("Enter agent ID: "))
 
-    while True:
-        try:
-            agent_id = int(input("Enter agent ID: "))
-            if any(a.id == agent_id for a in agents):
-                break
-            else:
-                print("Invalid agent ID. Please try again.")
-        except ValueError:
-            print("Please enter a valid number.")
+    property_types = session.query(PropertyType).all()
+    print("Which property type is this :")
+    for property_type in property_types:
+        print(f"{property_type.id}. {property_type.type_name}")
+    type_id = int(input("Enter property type ID: "))
 
     locations = session.query(Location).all()
-    print("Available locations:")
+    print("Where is it located? :")
     for location in locations:
-        print(f"{location.id}. {location.city}")
+        print(f"{location.id}. {location.city} - {location.neighbourhood}")
+    location_id = int(input("Enter location ID: "))
 
-    while True:
-        try:
-            location_id = int(input("Enter location ID: "))
-            if any(l.id == location_id for l in locations):
-                break
-            else:
-                print("Invalid location ID. Please try again.")
-        except ValueError:
-            print("Please enter a valid number.")
-            
-    property = Property(price=price, description=description, rooms=rooms, 
-                        type_id=type_id, agent_id=agent_id, location_id=location_id)
+    property = Property(
+        price=price,
+        description=description,
+        rooms=rooms,
+        type_id=type_id,
+        agent_id=agent_id,
+        location_id=location_id
+    )
     session.add(property)
     session.commit()
+    print("Property created successfully! :)")
 
 def list_properties(session):
     properties = session.query(Property).all()
@@ -63,5 +43,32 @@ def list_properties(session):
     if not properties: print("No properties found")
     else:
         print("List of Properties :")
-        for property in properties:
-            print(f"ID: {property.id}, Price: {property.price}, Description: {property.description}, Rooms: {property.rooms}, Type ID: {property.type_id}, Agent ID: {property.agent_id}, Location ID: {property.location_id}")
+        for prop in properties:
+            print(f"ID: {prop.id}, Price: {prop.price}, Description: {prop.description}, Rooms: {prop.rooms}, Type ID: {prop.type_id}, Agent ID: {prop.agent_id}, Location ID: {prop.location_id}")
+
+def update_property(session):
+    property_id = int(input("Enter property ID to update : "))
+    property = session.query(Property).filter_by(id=property_id).first()
+
+    if property:
+        price = input("Enter new price : ")
+        rooms = input("Enter new number of rooms : ")
+        description = input("Enter new description : ")
+
+        if price: property.price = price
+        if rooms: property.rooms = rooms
+        if description: property.description = description
+
+        session.commit()
+        print("Property updated successfully !!")
+    else:print("Property not found!")
+
+def delete_property(session):
+    property_id = int(input("Enter property ID to delete : "))
+    property = session.query(Property).filter_by(id=property_id).first()
+
+    if property:
+        session.delete(property)
+        session.commit()
+        print("Property deleted successfully! ")
+    else: print("Property not found")

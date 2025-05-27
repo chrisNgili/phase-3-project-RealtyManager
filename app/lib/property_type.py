@@ -15,4 +15,4 @@ def list_property_types(session):
     else:
         print("Property types :")
         for types in property_types:
-            print(f"ID : {types.id}, Type_name{types.type_name}")
+            print(f"ID : {types.id}, Type_name: {types.type_name}")

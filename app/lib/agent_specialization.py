@@ -17,3 +17,4 @@ def list_agent_specializations(session):
         print("Specialization list :")
         for specialization in specialization_list:
             print(f"ID: {specialization.id}, Name : {specialization.name}")
+
