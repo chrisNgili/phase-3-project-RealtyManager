@@ -1,6 +1,10 @@
 
 # RealtyManager
 
+## 🙌 Acknowledgements
+
+* Author Name : Christopher Ngili
+
 ## Overview:
 The Real Estate Listing Platform is a command-line interface (CLI) application designed to help real estate agents efficiently manage property listings. This system allows agents to register, create and manage property listings, and maintain specialized information while maintaining relationships between different data entities.
 
@@ -61,12 +65,14 @@ The Real Estate Listing Platform is a command-line interface (CLI) application d
   
 🗄️  Database: SQLite
 
->_  CLI Framework: Custom CLI
+_  CLI Framework: Custom CLI
 
 🔗  ORM: SQLAlchemy
 
 🌳  Version Control: Git 
 
+## Libraries Used
+ * Faker Library to populate Mock data.
 
 ## Contact Details:
 
