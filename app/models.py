@@ -22,7 +22,7 @@ class Property(Base):
 
     id = Column(Integer, primary_key= True)
     price = Column(Integer, nullable = False)
-    description = Column(Text, nullable = False)
+    description = Column(String(70), nullable = False)
     rooms = Column(Integer, nullable = False)
     type_id = Column(Integer, ForeignKey("property_types.id"), nullable = False)
     agent_id = Column(Integer, ForeignKey("agents.id"), nullable = False)
